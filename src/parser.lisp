@@ -16,7 +16,7 @@
 (defrule sexp (and (? whitespace) (or list atom))
   (:destructure (w s &bounds start end)
     (declare (ignore w))
-    (list s)))
+    (first (list s))))
 
 (defrule list (and #\( sexp (* sexp) (? whitespace) #\))
   (:destructure (p1 car cdr w p2)

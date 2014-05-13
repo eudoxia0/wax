@@ -4,7 +4,8 @@
   :license "LLGPL"
   :description "An S-expression-based markup language."
   :depends-on (:esrap
-               :uiop)
+               :uiop
+               :anaphora)
   :components ((:module "src"
                 :serial t
                 :components
