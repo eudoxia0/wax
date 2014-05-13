@@ -7,4 +7,6 @@
   :components ((:module "src"
                 :serial t
                 :components
-                ((:file "parser")))))
+                ((:file "parser")
+                 (:file "html")
+                 (:file "emitter")))))
