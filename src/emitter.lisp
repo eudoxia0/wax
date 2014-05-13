@@ -1,13 +1,12 @@
 (in-package :cl-user)
 (defpackage wax.emitter
   (:use :cl)
-  (:export :+default-output-type+
-           :emit))
+  (:export :emit))
 (in-package :wax.emitter)
 
 (defparameter +default-output-type+ :html)
 
-(defun emit (tree &optional (output-type +default-output-type+))
+(defun emit (tree output-type)
   (cond
     ((eq output-type :html)
      (wax.html:emit tree))

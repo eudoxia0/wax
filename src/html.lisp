@@ -4,5 +4,5 @@
   (:export :emit))
 (in-package :wax.html)
 
-(defun emit-html (tree)
-  )
+(defun emit (tree)
+  tree)

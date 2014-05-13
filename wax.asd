@@ -3,10 +3,12 @@
   :author "Fernando Borretti <eudoxiahp@gmail.com>"
   :license "LLGPL"
   :description "An S-expression-based markup language."
-  :depends-on (:esrap)
+  :depends-on (:esrap
+               :uiop)
   :components ((:module "src"
                 :serial t
                 :components
                 ((:file "parser")
                  (:file "html")
-                 (:file "emitter")))))
+                 (:file "emitter")
+                 (:file "wax")))))

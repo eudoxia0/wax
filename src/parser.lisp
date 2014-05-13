@@ -1,7 +1,7 @@
 (in-package :cl-user)
 (defpackage wax.parser
   (:use :cl :esrap)
-  (:export :parse))
+  (:export :parse-string))
 (in-package :wax.parser)
 
 (defrule whitespace (+ (or #\space #\tab #\newline))
@@ -22,3 +22,6 @@
   (:destructure (p1 car cdr w p2)
     (declare (ignore p1 p2 w))
     (cons car cdr)))
+
+(defun parse-string (string)
+  (parse 'sexp string))
