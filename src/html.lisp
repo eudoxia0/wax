@@ -19,9 +19,8 @@
 
 (rule "h1"
       (progn
-        (format t "h1 called with ~A" tree)
         (format nil "<h1>~A</h1>"
-              (print-tree (emit tree)))))
+                (print-tree (emit tree)))))
 
 (defun emit (tree)
   (if (atom tree)
