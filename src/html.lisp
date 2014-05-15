@@ -17,10 +17,18 @@
 (defun get-rule (name)
   (gethash name *rules*))
 
-(rule "h1"
-      (progn
-        (format nil "<h1>~A</h1>"
-                (print-tree (emit tree)))))
+(defmacro simple-html (tag-name)
+  `(rule ,tag-name
+         (progn
+           (format nil ,(format nil "<~A>~~A</~A>" tag-name tag-name)
+                   (print-tree (emit tree))))))
+
+(defmacro do-tag-list (&rest tags)
+  `(progn
+     ,@(loop for tag in tags collecting
+             `(simple-html ,tag))))
+
+(do-tag-list "h1" "h2" "h3" "h4" "h5" "h6" "ul" "ol" "li")
 
 (defun emit (tree)
   (if (atom tree)
