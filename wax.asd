@@ -10,6 +10,7 @@
                 :serial t
                 :components
                 ((:file "parser")
+                 (:file "macros")
                  (:file "html")
                  (:file "emitter")
                  (:file "wax")))))
