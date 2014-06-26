@@ -1,7 +1,8 @@
 (in-package :cl-user)
 (defpackage wax.macros
   (:use :cl :anaphora)
-  (:export :expand-macros))
+  (:export :def-wax-macro
+           :expand-macros))
 (in-package :wax.macros)
 
 (defparameter *macros* (make-hash-table :test #'equal))

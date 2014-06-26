@@ -1,17 +1,12 @@
 (in-package :cl-user)
 (defpackage wax
   (:use :cl)
-  (:import-from :wax.parser
-                :parse-string)
-  (:import-from :wax.emitter
-                :+default-output-type+
-                :emit)
   (:export :process))
 (in-package :wax)
 
 (defmethod process ((input string)
                     &optional (output-type +default-output-type+))
-  (emit (parse-string input) output-type))
+  (parse-string input))
 
 (defmethod process ((input pathname)
                     &optional (output-type +default-output-type+))
