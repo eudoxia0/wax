@@ -11,6 +11,6 @@
                 :components
                 ((:file "parser")
                  (:file "macros")
-                 (:file "html")
                  (:file "emitter")
+                 (:file "html")
                  (:file "wax")))))

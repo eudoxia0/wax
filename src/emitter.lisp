@@ -1,17 +1,22 @@
 (in-package :cl-user)
 (defpackage wax.emitter
   (:use :cl)
-  (:export :+default-output-type+
-           :emit))
+  (:export :defbackend
+           :defcontext
+           :defrule))
 (in-package :wax.emitter)
 
+;;; Backends
+
 (defparameter *output-types* (list))
+(defparameter *rules* (make-hash-table))
 
 (defmacro defbackend (name)
-  `(push-new ,name *output-types*))
+  `(progn (pushnew ,name *output-types*)
+          (setf (gethash ,name *rules*)
+                (make-hash-table :test #'equal))))
 
-(defparameter +output-types+ (list :html :tex))
-(defparameter +default-output-type+ :html)
+;;; Contexts
 
 (defparameter *contexts* (list))
 
@@ -20,13 +25,11 @@
 
 (defcontext global)
 
-(defmacro deftag (outout-type name (&optional (context global))
-                  (&rest args) &rest body)
-  (
+;;; Rules
 
-
-(defun emit (tree output-type)
-  (cond
-    ((eq output-type :html)
-     (wax.html:emit tree))
-    (t nil)))
+(defmacro defrule (name backend (&rest args) &rest body)
+  `(setf (gethash ,(string-upcase (symbol-name name))
+                  (gethash ,backend *rules*))
+         (lambda ,name (args)
+           (destructuring-bind ,args args
+             ,@body))))
