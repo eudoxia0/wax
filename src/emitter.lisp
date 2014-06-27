@@ -30,6 +30,6 @@
 (defmacro defrule (name backend (&rest args) &rest body)
   `(setf (gethash ,(string-upcase (symbol-name name))
                   (gethash ,backend *rules*))
-         (lambda ,name (args)
+         (lambda (args)
            (destructuring-bind ,args args
              ,@body))))
