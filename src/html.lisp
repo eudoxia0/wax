@@ -6,4 +6,4 @@
 (defbackend :html)
 
 ;;; Basic formatting
-(defrule b :html (&rest text) (print-tree text))
+(defrule b (:html) (&rest text) (print-tree text))
