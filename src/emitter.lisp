@@ -1,6 +1,6 @@
 (in-package :cl-user)
 (defpackage wax.emitter
-  (:use :cl)
+  (:use :cl :anaphora)
   (:export :defbackend
            :defcontext
            :defrule
@@ -27,7 +27,7 @@
 (defparameter *contexts* (list))
 
 (defmacro defcontext (name)
-  `(push ,(string-upcase (symbol-name name)) *contexts*))
+  `(push ,(string-downcase (symbol-name name)) *contexts*))
 
 (defcontext global)
 
@@ -35,21 +35,20 @@
 
 (defmacro defrule (name (&optional (context 'global))
                    (&rest args) &rest body)
-  `(setf (gethash ,(string-upcase (symbol-name name))
+  `(setf (gethash ,(string-downcase (symbol-name name))
                   (gethash +backend+ *rules*))
          (lambda (args)
            (destructuring-bind ,args args
              ,@body))))
 
-(defmacro rule (name backend)
-  `(gethash ,(string-upcase (symbol-name name))
-            (backend-rules ,backend)))
+(defun rule (name backend)
+  (gethash name (backend-rules backend)))
 
 ;;; Emit
 
 (defun emit (tree backend)
   (if (atom tree)
-      atom
+      tree
       (let ((first (first tree)))
         (aif (rule first backend)
              (funcall it (rest tree))
