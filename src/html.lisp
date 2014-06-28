@@ -25,4 +25,9 @@
       (decf *section-depth*)))
   ;; Links
   (defrule link () (url &rest text)
-    (format nil "<a href=~S>~A</a>" url (e text))))
+    (format nil "<a href=~S>~A</a>" url (e text)))
+  ;; Paragraphs
+  (defrule p () (&rest paragraphs)
+    (cat-list (mapcar #'(lambda (paragraph)
+                          (print-tag "p" (e paragraph)))
+                      paragraphs))))
