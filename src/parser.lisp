@@ -13,7 +13,7 @@
   (:lambda (list)
     (coerce list 'string)))
 
-(defrule sexp (and (? whitespace) (or list atom))
+(defrule sexp (and (? whitespace) (or verbatim list atom))
   (:destructure (w s &bounds start end)
     (declare (ignore w))
     (first (list s))))
@@ -22,6 +22,13 @@
   (:destructure (p1 car cdr w p2)
     (declare (ignore p1 p2 w))
     (cons car cdr)))
+
+(defrule verb-char (not ">>>"))
+
+(defrule verbatim (and "<<<" (* verb-char) ">>>")
+  (:destructure (open text close)
+   (declare (ignore open close))
+   (text text)))
 
 (defun parse-string (string)
   (parse 'sexp string))

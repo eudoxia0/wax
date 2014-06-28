@@ -8,4 +8,5 @@
 
 (defbackend :html
   ;;; Basic formatting
-  (defrule b () (&rest text) (print-tag "strong" text)))
+  (defrule b () (&rest text) (print-tag "strong" text))
+  (defrule i () (&rest text) (print-tag "em" text)))
