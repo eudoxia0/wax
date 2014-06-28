@@ -2,7 +2,8 @@
 (defpackage wax.utils
   (:use :cl)
   (:export :print-tree
-           :cat))
+           :cat
+           :cat-list))
 (in-package :wax.utils)
 
 (defun print-tree (tree)
@@ -10,3 +11,6 @@
 
 (defun cat (&rest strings)
   (apply #'concatenate (cons 'string strings)))
+
+(defun cat-list (list-of-strings)
+  (apply #'cat list-of-strings))
