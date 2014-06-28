@@ -22,10 +22,10 @@
   (:lambda (list)
     (preprocess (text list))))
 
-(defrule sexp (and (? whitespace) (or verbatim list atom))
-  (:destructure (w s &bounds start end)
-    (declare (ignore w))
-    (first (list s))))
+(defrule sexp (and (? whitespace) (or verbatim list atom) (? whitespace))
+  (:destructure (left-ws text right-ws &bounds start end)
+    (declare (ignore left-ws right-ws))
+    (first (list text))))
 
 (defrule list (and #\( sexp (* sexp) (? whitespace) #\))
   (:destructure (p1 car cdr w p2)
