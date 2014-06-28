@@ -1,8 +1,17 @@
 (in-package :cl-user)
 (defpackage wax.parser
   (:use :cl :esrap)
+  (:import-from :ppcre
+                :regex-replace-all)
   (:export :parse-string))
 (in-package :wax.parser)
+
+(defun preprocess (text)
+  "Prettify the text"
+  (let ((out (regex-replace-all "--" text "–")))
+    (setf out (regex-replace-all "---" out "—"))
+    (setf out (regex-replace-all "\\.\\.\\." out "…"))
+    out))
 
 (defrule whitespace (+ (or #\space #\tab #\newline))
   (:constant nil))
@@ -11,7 +20,7 @@
 
 (defrule atom (+ valid-char)
   (:lambda (list)
-    (coerce list 'string)))
+    (preprocess (text list))))
 
 (defrule sexp (and (? whitespace) (or verbatim list atom))
   (:destructure (w s &bounds start end)

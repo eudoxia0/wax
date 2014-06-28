@@ -5,7 +5,8 @@
   :description "An S-expression-based markup language."
   :depends-on (:esrap
                :uiop
-               :anaphora)
+               :anaphora
+               :cl-ppcre)
   :components ((:module "src"
                 :serial t
                 :components
