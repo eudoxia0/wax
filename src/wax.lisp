@@ -14,4 +14,4 @@
   (emit (parse-string input) backend))
 
 (defmethod process ((input pathname) &optional (backend +default-backend+))
-  (process (uiop:read-file-string input backende)))
+  (process (uiop:read-file-string input backend)))
