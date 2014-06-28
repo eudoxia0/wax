@@ -22,4 +22,7 @@
          (print-tag (format nil "h~A" (incf *section-depth*))
                     (p/e title))
          (e text))
-      (decf *section-depth*))))
+      (decf *section-depth*)))
+  ;; Links
+  (defrule link () (url &rest text)
+    (format nil "<a href=~S>~A</a>" url (e text))))
