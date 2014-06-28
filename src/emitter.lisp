@@ -1,7 +1,8 @@
 (in-package :cl-user)
 (defpackage wax.emitter
   (:use :cl :anaphora)
-  (:export :defbackend
+  (:export :with-backend
+           :defbackend
            :defcontext
            :defrule
            :emit))
@@ -15,8 +16,12 @@
 (defmacro backend-rules (backend-name)
   `(gethash ,backend-name *rules*))
 
-(defmacro defbackend (name &rest body)
+(defmacro with-backend (name &rest body)
   `(let ((+backend+ ,name))
+     ,@body))
+
+(defmacro defbackend (name &rest body)
+  `(with-backend ,name
      (pushnew ,name *output-types*)
      (setf (backend-rules ,name)
            (make-hash-table :test #'equal))
