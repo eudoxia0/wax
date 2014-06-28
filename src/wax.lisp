@@ -1,11 +1,12 @@
 (in-package :cl-user)
 (defpackage wax
-  (:use :cl :wax.emitter)
+  (:use :cl :wax.emitter :wax.utils)
   (:import-from :wax.parser
                 :parse-string)
   (:export :process
            :with-backend
-           :defrule))
+           :defrule
+           :print-tree))
 (in-package :wax)
 
 (defparameter +default-backend+ :html)
