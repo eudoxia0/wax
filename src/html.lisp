@@ -20,7 +20,7 @@
     (prog1
         (cat
          (print-tag (format nil "h~A" (incf *section-depth*))
-                    (p/e title))
+                    (e title))
          (e text))
       (decf *section-depth*)))
   ;; Links
