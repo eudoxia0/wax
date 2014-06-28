@@ -1,6 +1,6 @@
 (in-package :cl-user)
 (defpackage wax.emitter
-  (:use :cl :anaphora)
+  (:use :cl :anaphora :wax.utils)
   (:export :with-backend
            :defbackend
            :defcontext
@@ -57,6 +57,7 @@
       (let ((first (first tree)))
         (aif (rule first backend)
              (funcall it (rest tree))
-             (mapcar #'(lambda (elem)
-                         (emit elem backend))
-                     tree)))))
+             (print-tree
+              (mapcar #'(lambda (elem)
+                          (emit elem backend))
+                      tree))))))
