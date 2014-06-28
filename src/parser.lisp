@@ -32,9 +32,9 @@
     (declare (ignore p1 p2 w))
     (cons car cdr)))
 
-(defrule verb-char (not ">>>"))
+(defrule verb-char (not "``"))
 
-(defrule verbatim (and "<<<" (* verb-char) ">>>")
+(defrule verbatim (and "``" (* verb-char) "``")
   (:destructure (open text close)
    (declare (ignore open close))
    (text text)))
