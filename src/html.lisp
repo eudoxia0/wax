@@ -3,7 +3,6 @@
   (:use :cl :anaphora :wax.emitter :wax.utils))
 (in-package :wax.html)
 
-(defbackend :html)
-
-;;; Basic formatting
-(defrule b (:html) (&rest text) (print-tree text))
+(defbackend :html
+  ;;; Basic formatting
+  (defrule b () (&rest text) (print-tree text)))
