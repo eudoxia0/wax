@@ -1,6 +1,6 @@
 (in-package :cl-user)
 (defpackage wax.emitter
-  (:use :cl :anaphora :wax.utils)
+  (:use :cl :plump :anaphora :wax.utils)
   (:export :with-backend
            :defbackend
            :defcontext
@@ -51,13 +51,24 @@
 
 ;;; Emit
 
-(defun emit (tree backend)
-  (if (atom tree)
-      tree
-      (let ((first (first tree)))
-        (aif (rule first backend)
-             (funcall it (rest tree))
-             (print-tree
-              (mapcar #'(lambda (elem)
-                          (emit elem backend))
-                      tree))))))
+(defmethod process ((str string) backend)
+  (with-output-to-string (stream)
+    (defmethod emit ((node text-node))
+      (write-string (text node) stream backend))
+
+    (defmethod emit ((vec vector))
+      (loop for elem across vec do
+        (emit elem)))
+
+    (defmethod emit ((node element))
+      (let ((name (tag-name node))
+            (attr (attributes node))
+            (children (children node)))
+        (aif (rule name backend)
+             (funcall it stream attr children)
+             (emit children))))
+
+    (emit (parse str) backend)))
+
+(defmethod process ((path pathname) backend)
+  (process (uiop:read-file-string path) backend))
