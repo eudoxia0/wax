@@ -65,6 +65,15 @@
     (format nil "<abbr title=~S>~A</abbr>"
             (gethash "alt" a)
             (emit tree)))
+  ;; Math
+  (defrule itex () (a tree)
+    (format nil "\\(~A\\)" (emit tree)))
+  (defrule tex () (a tree)
+    (format nil "\\[~A\\]" (emit tree)))
+  ;; Sidenotes
+  (defrule sidenote () (a tree)
+    (format nil "<div class=\"sidenote\">~A</div>"
+            (emit tree)))
   ;; Quotes
   (defrule quote () (a tree)
     (format nil "<blockquote>~A</blockquote>"
