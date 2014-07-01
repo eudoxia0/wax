@@ -51,6 +51,8 @@
 
 ;;; Emit
 
+(setf plump::*tag-dispatchers* (list))
+
 (defmethod process ((str string) backend)
   (defmethod emit ((node text-node))
     (text node))
