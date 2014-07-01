@@ -3,10 +3,13 @@
   (:use :cl :anaphora :wax.emitter :wax.utils))
 (in-package :wax.html)
 
-(defun print-tag (stream tag children)
-  (format stream "<~A>~A</~A>" tag (emit children) tag))
+(defmacro print-tag (stream tag tree)
+  `(progn
+     (format ,stream "<~A>" ,tag)
+     (emit ,tree)
+     (format ,stream "</~A>" ,tag)))
 
 (defbackend :html
   ;;; Basic formatting
-  (defrule b () (&rest text) (print-tag "strong" text))
-  (defrule i () (&rest text) (print-tag "em" text)))
+  (defrule b () (s a tree) (print-tag s "strong" tree))
+  (defrule i () (s a tree) (print-tag s "em" tree)))
