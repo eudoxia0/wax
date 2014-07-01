@@ -31,4 +31,17 @@
                   (gethash id *links*)
                   ;; Use a bare URI
                   uri)
-              (emit text)))))
+              (emit text))))
+  ;; Sections
+  (defrule h1 () (a tree)
+    (declare (ignore a)) (print-tag "h1" tree))
+  (defrule h2 () (a tree)
+    (declare (ignore a)) (print-tag "h2" tree))
+  (defrule h3 () (a tree)
+    (declare (ignore a)) (print-tag "h3" tree))
+  (defrule h4 () (a tree)
+    (declare (ignore a)) (print-tag "h4" tree))
+  (defrule h5 () (a tree)
+    (declare (ignore a)) (print-tag "h5" tree))
+  (defrule h6 () (a tree)
+    (declare (ignore a)) (print-tag "h6" tree)))
