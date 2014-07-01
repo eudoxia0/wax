@@ -8,6 +8,8 @@
 
 (defparameter *links* (make-hash-table :test #'equal))
 
+(defparameter *references* (make-hash-table :test #'equal))
+
 (defbackend :html
   ;;; Basic formatting
   (defrule b () (a tree)
@@ -44,4 +46,15 @@
   (defrule h5 () (a tree)
     (declare (ignore a)) (print-tag "h5" tree))
   (defrule h6 () (a tree)
-    (declare (ignore a)) (print-tag "h6" tree)))
+    (declare (ignore a)) (print-tag "h6" tree))
+  ;; References
+  (defrule references () (a references)
+    (declare (ignore a))
+    (loop for ref across references do
+      (let ((id (attribute ref "id")))
+        (setf (gethash id *references*) nil)))) ;; TODO
+  (defrule ref () (attrs text)
+    (let ((id (gethash "id" attrs)))
+      (format nil "<a href=\"#ref-~A\">~A</a>"
+              (gethash id *references*)
+              (emit text)))))
