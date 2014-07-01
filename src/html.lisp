@@ -10,5 +10,25 @@
 
 (defbackend :html
   ;;; Basic formatting
-  (defrule b () (a tree) (print-tag "strong" tree))
-  (defrule i () (a tree) (print-tag "em" tree)))
+  (defrule b () (a tree)
+    (declare (ignore a)) (print-tag "strong" tree))
+  (defrule i () (a tree)
+    (declare (ignore a)) (print-tag "em" tree))
+  ;; Links
+  (defrule links () (a links)
+    (declare (ignore a))
+    (loop for link across links do
+      (let ((href (emit (children link)))
+            (id (attribute link "id")))
+        (setf (gethash id *links*)
+              href))))
+  (defrule link () (attrs text)
+    (let ((id (gethash "id" attrs))
+          (uri (gethash "uri" attrs)))
+      (format nil "<a href=~S>~A</a>"
+              (if id
+                  ;; Get the associated ID
+                  (gethash id *links*)
+                  ;; Use a bare URI
+                  uri)
+              (emit text)))))
