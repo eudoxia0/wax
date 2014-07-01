@@ -2,7 +2,7 @@
   :version "0.1"
   :author "Fernando Borretti <eudoxiahp@gmail.com>"
   :license "LLGPL"
-  :description "An S-expression-based markup language."
+  :description "Markup."
   :depends-on (:plump
                :uiop
                :anaphora

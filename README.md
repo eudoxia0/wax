@@ -1,4 +1,4 @@
-# Wax: Lisp Markup Language
+# Wax: Markup semantics for XML
 
 # License
 
