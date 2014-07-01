@@ -5,7 +5,8 @@
            :defbackend
            :defcontext
            :defrule
-           :emit))
+           :emit
+           :process))
 (in-package :wax.emitter)
 
 ;;; Backends
