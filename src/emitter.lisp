@@ -42,8 +42,8 @@
                    (&rest args) &rest body)
   `(setf (gethash ,(string-downcase (symbol-name name))
                   (gethash +backend+ *rules*))
-         (lambda (args)
-           (destructuring-bind ,args args
+         (lambda (stream attrs children)
+           (destructuring-bind ,args (list stream attrs children)
              ,@body))))
 
 (defun rule (name backend)
@@ -54,11 +54,14 @@
 (defmethod process ((str string) backend)
   (with-output-to-string (stream)
     (defmethod emit ((node text-node))
-      (write-string (text node) stream backend))
+      (write-string (text node) stream))
 
     (defmethod emit ((vec vector))
       (loop for elem across vec do
         (emit elem)))
+
+    (defmethod emit ((root root))
+      (emit (children root)))
 
     (defmethod emit ((node element))
       (let ((name (tag-name node))
@@ -66,9 +69,12 @@
             (children (children node)))
         (aif (rule name backend)
              (funcall it stream attr children)
-             (emit children))))
+             (progn
+               (format stream "<~A>" name)
+               (emit children)
+               (format stream "</~A>" name)))))
 
-    (emit (parse str) backend)))
+    (emit (parse str))))
 
 (defmethod process ((path pathname) backend)
   (process (uiop:read-file-string path) backend))
