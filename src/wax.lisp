@@ -1,7 +1,18 @@
 (in-package :cl-user)
 (defpackage wax
   (:use :cl)
-  (:export :process))
+  (:import-from :wax.emitter
+                :with-backend
+                :defbackend
+                :defcontext
+                :defrule
+                :emit)
+  (:export :with-backend
+           :defbackend
+           :defcontext
+           :defrule
+           :emit
+           :process))
 (in-package :wax)
 
 (defparameter +default-backend+ :html)
