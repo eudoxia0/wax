@@ -20,10 +20,11 @@
   (defrule links () (a links)
     (declare (ignore a))
     (loop for link across links do
-      (let ((href (emit (children link)))
-            (id (attribute link "id")))
-        (setf (gethash id *links*)
-              href))))
+      (if (element-p link)
+          (let ((href (emit (children link)))
+                (id (attribute link "id")))
+            (setf (gethash id *links*)
+                  href)))))
   (defrule link () (attrs text)
     (let ((id (gethash "id" attrs))
           (uri (gethash "uri" attrs)))
@@ -51,10 +52,20 @@
   (defrule references () (a references)
     (declare (ignore a))
     (loop for ref across references do
-      (let ((id (attribute ref "id")))
-        (setf (gethash id *references*) nil)))) ;; TODO
+      (if (element-p ref)
+          (let ((id (attribute ref "id")))
+            (setf (gethash id *references*) nil)))))
   (defrule ref () (attrs text)
     (let ((id (gethash "id" attrs)))
       (format nil "<a href=\"#ref-~A\">~A</a>"
               (gethash id *references*)
-              (emit text)))))
+              (emit text))))
+  ;; Abbreviations
+  (defrule abbr () (a tree)
+    (format nil "<abbr title=~S>~A</abbr>"
+            (gethash "alt" a)
+            (emit tree)))
+  ;; Quotes
+  (defrule quote () (a tree)
+    (format nil "<blockquote>~A</blockquote>"
+            (emit tree))))
