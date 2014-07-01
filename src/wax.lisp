@@ -1,6 +1,6 @@
 (in-package :cl-user)
 (defpackage wax
-  (:use :cl)
+  (:use :cl :wax.utils)
   (:import-from :wax.emitter
                 :with-backend
                 :defbackend
@@ -12,7 +12,8 @@
            :defcontext
            :defrule
            :emit
-           :process))
+           :process
+           :pop-by-name))
 (in-package :wax)
 
 (defparameter +default-backend+ :html)
