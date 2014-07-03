@@ -7,13 +7,16 @@
                 :defcontext
                 :defrule
                 :emit)
+  (:import-from :wax.files
+                :wax-compile)
   (:export :with-backend
            :defbackend
            :defcontext
            :defrule
            :emit
            :process
-           :pop-by-name))
+           :pop-by-name
+           :wax-compile))
 (in-package :wax)
 
 (defparameter +default-backend+ :html)
