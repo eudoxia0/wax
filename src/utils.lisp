@@ -4,7 +4,8 @@
   (:export :print-tree
            :cat
            :cat-list
-           :pop-by-name))
+           :pop-by-name
+           :pop-all-by-name))
 (in-package :wax.utils)
 
 (defun print-tree (tree)
@@ -20,4 +21,8 @@
   (delete-if #'(lambda (elem)
                  (when (element-p elem)
                    (equal (tag-name elem) elem-name)))
-             vector))
+             vector :count 1))
+
+(defun pop-all-by-name (vector elem-name)
+  (loop for elem = (pop-by-name vector elem-name)
+        while elem collecting elem))
