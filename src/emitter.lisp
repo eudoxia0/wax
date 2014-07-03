@@ -52,11 +52,10 @@
 
 ;;; Emit
 
-(setf plump::*tag-dispatchers* (list))
-
 (defmethod process ((str string) backend)
   (defmethod emit ((node text-node))
-    (text node))
+    (string-trim '(#\Space #\Newline #\Tab #\Linefeed #\Page #\Return)
+                 (text node)))
 
   (defmethod emit ((vec vector))
     (cat-list
@@ -75,7 +74,8 @@
            (progn
              (format nil "<~A>~A</~A>" name (emit children) name)))))
 
-  (emit (parse str)))
+  (emit (let ((plump::*tag-dispatchers* (list)))
+          (parse str))))
 
 (defmethod process ((path pathname) backend)
   (process (uiop:read-file-string path) backend))
