@@ -13,4 +13,5 @@
                 ((:file "utils")
                  (:file "emitter")
                  (:file "html")
+                 (:file "files")
                  (:file "wax")))))
