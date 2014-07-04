@@ -77,4 +77,6 @@
   ;; Quotes
   (defrule quote () (a tree)
     (format nil "<blockquote>~A</blockquote>"
-            (emit tree))))
+            (emit tree)))
+  ;; Verbatim
+  (defrule verb () (a tree) (text (elt tree 0))))

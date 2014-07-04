@@ -52,10 +52,13 @@
 
 ;;; Emit
 
+
+;; Tell plump to create a verbatim element
+(define-fulltext-element verb)
+
 (defmethod process ((str string) backend)
   (defmethod emit ((node text-node))
-    (string-trim '(#\Space #\Newline #\Tab #\Linefeed #\Page #\Return)
-                 (text node)))
+    (text node))
 
   (defmethod emit ((vec vector))
     (cat-list

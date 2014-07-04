@@ -27,8 +27,9 @@
         (move-file full-path
                    output-path
                    (string-downcase (symbol-name backend))
-                   (with-output-to-string (str)
-                     (plump:serialize
-                      (plump:parse
-                       (wax.emitter:process full-path backend))
-                      str)))))))
+                   ;(with-output-to-string (str)
+                   ;  (plump:serialize
+                   ;   (plump:parse
+                   ;    (wax.emitter:process full-path backend))
+                   ;   str)))))))
+                   (wax.emitter:process full-path backend))))))
