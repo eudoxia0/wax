@@ -1,6 +1,9 @@
 (in-package :cl-user)
 (defpackage wax.html
-  (:use :cl :anaphora :plump :wax.emitter :wax.utils))
+  (:use :cl :anaphora :plump :wax.emitter :wax.utils)
+  (:import-from :wax.files
+                :*input-path*
+                :*output-path*))
 (in-package :wax.html)
 
 (defun print-tag (tag tree)

@@ -1,8 +1,13 @@
 (in-package :cl-user)
 (defpackage wax.files
   (:use :cl)
-  (:export :wax-compile))
+  (:export :wax-compile
+           :*input-path*
+           :*output-path*))
 (in-package :wax.files)
+
+(defparameter *input-path* nil)
+(defparameter *output-path* nil)
 
 (defun move-file (input-path output-path output-type content)
   (let* ((output-dir (make-pathname
@@ -11,6 +16,8 @@
                        :directory (pathname-directory output-path)
                        :name (pathname-name input-path)
                        :type output-type)))
+    (setf *input-path* input-path)
+    (setf *output-path* output-path)
     (ensure-directories-exist output-dir)
     (with-open-file (stream output-path
                             :direction :output
