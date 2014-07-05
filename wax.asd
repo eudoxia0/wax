@@ -12,6 +12,6 @@
                 :components
                 ((:file "utils")
                  (:file "emitter")
-                 (:file "html")
                  (:file "files")
+                 (:file "html")
                  (:file "wax")))))
