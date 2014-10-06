@@ -108,7 +108,7 @@
   ;; TeX Math
   (defrule tex () (a tree)
     (declare (ignore a))
-    (format nil "$~A$" (plump-tex:serialize (emit tree))))
+    (format nil "$~A$" (plump-tex:serialize tree)))
   (defrule texb () (a tree)
     (declare (ignore a))
     (format nil "\\[~A\\]" (plump-tex:serialize (emit tree))))
