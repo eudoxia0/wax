@@ -1,6 +1,15 @@
 (in-package :cl-user)
 (defpackage wax.emitter
-  (:use :cl :plump :anaphora :wax.utils)
+  (:use :cl :anaphora :wax.utils)
+  (:import-from :plump
+                :attributes
+                :children
+                :tag-name
+                :text
+                :node
+                :root
+                :element
+                :text-node)
   (:export :with-backend
            :defbackend
            :defcontext
@@ -52,11 +61,9 @@
 
 ;;; Emit
 
-
-;; Tell plump to create a verbatim element
-(define-fulltext-element verb)
-
 (defmethod process ((str string) backend)
+  (defgeneric emit (obj))
+  
   (defmethod emit ((node text-node))
     (text node))
 
@@ -72,13 +79,14 @@
     (let ((name (tag-name node))
           (attr (attributes node))
           (children (children node)))
-      (aif (rule name backend)
-           (funcall it attr children)
-           (progn
-             (format nil "<~A>~A</~A>" name (emit children) name)))))
+      (if (equal (tag-name node) "div")
+          (format nil "{~A}" (emit children))
+          (aif (rule name backend)
+               (funcall it attr children)
+               (with-output-to-string (str)
+                 (plump-tex:serialize node str))))))
 
-  (emit (let ((plump::*tag-dispatchers* (list)))
-          (parse str))))
+  (emit (wax.parser:parse-string str)))
 
 (defmethod process ((path pathname) backend)
   (process (uiop:read-file-string path) backend))
