@@ -6,8 +6,7 @@
   :depends-on (:plump-tex
                :uiop
                :anaphora
-               :cl-ppcre
-               :texgen)
+               :cl-ppcre)
   :components ((:module "src"
                 :serial t
                 :components

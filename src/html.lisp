@@ -88,46 +88,15 @@
   (defrule h6 () (a tree)
     (declare (ignore a))
     (print-tag "h6" tree))
-  ;; References
-  (defrule references () (a references)
-    (declare (ignore a))
-    (loop for ref across references do
-      (if (element-p ref)
-          (let ((id (attribute ref "id")))
-            (setf (gethash id *references*) nil)))))
-  (defrule ref () (attrs text)
-    (let ((id (gethash "id" attrs)))
-      (format nil "<a href=\"#ref-~A\">~A</a>"
-              (gethash id *references*)
-              (emit text))))
   ;; Abbreviations
   (defrule abbr () (a tree)
     (format nil "<abbr title=~S>~A</abbr>"
             (gethash "alt" a)
             (emit tree)))
-  ;; TeX Math
-  (defrule tex () (a tree)
-    (declare (ignore a))
-    (format nil "$~A$" (plump-tex:serialize tree)))
-  (defrule texb () (a tree)
-    (declare (ignore a))
-    (format nil "\\[~A\\]" (plump-tex:serialize (emit tree))))
-  ;; texgen math
-  (defrule m () (a tree)
-    (declare (ignore a))
-    (format nil "\\(~A\\)"
-            (eval (read-string-preserving-case
-                   (format nil "(TEXGEN:EMIT '~A)" (emit tree))))))
-  ;; Sidenotes
-  (defrule sidenote () (a tree)
-    (declare (ignore a))
-    (format nil "<div class=\"sidenote\">~A</div>"
-            (emit tree)))
   ;; Quotes
   (defrule quote () (a tree)
     (declare (ignore a))
-    (format nil "<blockquote>~A</blockquote>"
-            (emit tree)))
+    (print-tag "blockquote" tree))
   ;; Verbatim
   (defrule verb () (a tree)
     (declare (ignore a))
