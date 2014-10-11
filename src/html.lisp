@@ -9,13 +9,6 @@
 (defun print-tag (tag tree)
   (format nil "<~A>~A</~A>" tag (emit tree) tag))
 
-(defun read-string-preserving-case (string)
-  (let ((cur-case (readtable-case *readtable*)))
-    (setf (readtable-case *readtable*) :preserve)
-    (prog1
-        (read-from-string string)
-      (setf (readtable-case *readtable*) cur-case))))
-
 (defparameter *links* (make-hash-table :test #'equal))
 
 (defparameter *references* (make-hash-table :test #'equal))
