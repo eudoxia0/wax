@@ -14,7 +14,7 @@
 (defparameter *references* (make-hash-table :test #'equal))
 
 (defbackend :html
-  ;;; Basic Markup
+  ;; Basic Markup
   (defrule p () (a tree)
     (declare (ignore a))
     (print-tag "p" tree))

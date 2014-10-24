@@ -63,7 +63,7 @@
 
 (defmethod process ((str string) backend)
   (defgeneric emit (obj))
-  
+
   (defmethod emit ((node text-node))
     (text node))
 
