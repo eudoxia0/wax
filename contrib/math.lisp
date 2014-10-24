@@ -10,14 +10,18 @@
         (read-from-string string)
       (setf (readtable-case *readtable*) cur-case))))
 
+(defun serialize-to-string (node)
+  (with-output-to-string (str)
+    (plump-tex:serialize node str)))
+
 (with-backend :html
   ;; TeX Math
   (defrule tex () (a tree)
     (declare (ignore a))
-    (format nil "$~A$" (plump-tex:serialize tree)))
+    (format nil "\\(~A\\)" (serialize-to-string tree)))
   (defrule texb () (a tree)
     (declare (ignore a))
-    (format nil "\\[~A\\]" (plump-tex:serialize (emit tree))))
+    (format nil "\\[~A\\]" (serialize-to-string tree)))
   ;; texgen math
   (defrule m () (a tree)
     (declare (ignore a))
