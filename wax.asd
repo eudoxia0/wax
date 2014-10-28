@@ -2,7 +2,6 @@
   :version "0.1"
   :author "Fernando Borretti <eudoxiahp@gmail.com>"
   :license "LLGPL"
-  :description "Markup."
   :depends-on (:plump-tex
                :uiop
                :anaphora
@@ -12,7 +11,13 @@
                 :components
                 ((:file "utils")
                  (:file "parser")
+                 (:file "macros")
                  (:file "emitter")
                  (:file "files")
                  (:file "html")
-                 (:file "wax")))))
+                 (:file "wax"))))
+  :description "TeX-like programmatic markup language."
+  :long-description
+  #.(uiop:read-file-string
+     (uiop:subpathname *load-pathname* "README.md"))
+  :in-order-to ((test-op (test-op wax-test))))
