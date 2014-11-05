@@ -17,7 +17,11 @@
   ;; Basic Markup
   (defrule p () (a tree)
     (declare (ignore a))
-    (print-tag "p" tree))
+    (cat-list
+     (loop for block across tree collecting
+       (if (typep block 'text-node)
+           ""
+           (print-tag "p" (children block))))))
   (defrule b () (a tree)
     (declare (ignore a))
     (print-tag "strong" tree))
