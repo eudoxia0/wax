@@ -61,32 +61,39 @@
 
 ;;; Emit
 
+(defparameter *current-backend* nil
+  "Variable used so we don't have to constantly pass the `backend` parameter to `emit`.")
+
+(defgeneric emit (obj))
+
+(defmethod emit ((node text-node))
+  (text node))
+
+(defmethod emit ((vec vector))
+  (cat-list
+   (loop for elem across vec collecting
+     (emit elem))))
+
+(defmethod emit ((root root))
+  (emit (children root)))
+
+(defmethod emit ((node element))
+  (let ((name (tag-name node))
+        (attr (attributes node))
+        (children (children node)))
+    (if (equal (tag-name node) "div")
+        (format nil "{~A}" (emit children))
+        (aif (rule name *current-backend*)
+             (funcall it attr children)
+             (with-output-to-string (str)
+               (plump-tex:serialize node str))))))
+
+;;; High-level interface
+
+
 (defmethod process ((str string) backend)
-  (defgeneric emit (obj))
-
-  (defmethod emit ((node text-node))
-    (text node))
-
-  (defmethod emit ((vec vector))
-    (cat-list
-     (loop for elem across vec collecting
-       (emit elem))))
-
-  (defmethod emit ((root root))
-    (emit (children root)))
-
-  (defmethod emit ((node element))
-    (let ((name (tag-name node))
-          (attr (attributes node))
-          (children (children node)))
-      (if (equal (tag-name node) "div")
-          (format nil "{~A}" (emit children))
-          (aif (rule name backend)
-               (funcall it attr children)
-               (with-output-to-string (str)
-                 (plump-tex:serialize node str))))))
-
-  (emit (wax.parser:parse-string str)))
+  (let ((*current-backend* backend))
+    (emit (wax.parser:parse-string str))))
 
 (defmethod process ((path pathname) backend)
   (process (uiop:read-file-string path) backend))
