@@ -1,4 +1,3 @@
-
 (in-package :cl-user)
 (defpackage wax-test.html
   (:use :cl :fiveam))
@@ -11,6 +10,12 @@
 (defun equal-output (input output)
   (equal (wax:process input :html)
          output))
+
+(test paragraphs
+ (is-true
+  (equal-output "\\p{{a}{b}}" "<p>a</p><p>b</p>"))
+ (is-true
+  (equal-output "\\p{{a}  {b}}" "<p>a</p><p>b</p>")))
 
 (test bold
  (is-true
