@@ -97,4 +97,12 @@
   ;; Verbatim
   (defrule verb () (a tree)
     (declare (ignore a))
-    (text (elt tree 0))))
+    (text (elt tree 0)))
+  ;; Code
+  (defrule code () (a tree)
+    (declare (ignore a))
+    (print-tag "code" tree))
+  (defrule codeb () (a tree)
+    (declare (ignore a))
+    (format nil "<pre>~A</pre>"
+            (print-tag "code" tree))))
